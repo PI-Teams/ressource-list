@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
    before_action :set_comment, only: [:show, :edit, :update, :destroy]
-   before_action :set_post
+
   # GET /comments
   # GET /comments.json
   def index
@@ -14,7 +14,8 @@ class CommentsController < ApplicationController
 
   # GET /comments/new
   def new
-    @comment = Comment.new
+    @comment = Comment.new(post_id: params[:post_id])
+
   end
 
   # GET /comments/1/edit
@@ -24,8 +25,12 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-  #  @comment = Comment.new(comment_params)
-    @comment = current_user.comments.build(comment_params)
+
+         @post = Post.find(params[:post_id])
+         @comment = @post.comments.create(comment_params)
+         @comment.user_id = current_user.id
+   #@comment = Comment.new(title: params[:title], content: params[:content], post_id: params[:post_id], user_id: current_user.id)
+   # @comment = current_user.comments.build(comment_params)
 
     respond_to do |format|
       if @comment.save
@@ -68,12 +73,8 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     end
 
-    def set_post
-      @post = Post.find(1)
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:title, :content, :post_id, :user_id)
+      params.require(:comment).permit(:title, :content)
     end
 end

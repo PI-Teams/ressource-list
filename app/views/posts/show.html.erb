@@ -15,12 +15,11 @@
 <%= link_to 'Back', posts_path %>
 <p>
 <%= link_to 'Neuer Kommentar', new_comment_path(post_id: @post.id) %>
+
 </p>
 
 
 <div id="comments" data-post-id="<%= @post.id %>">
-
-	<%#= render 'comments/index' %>
 
     <%= render @post.comments %>
    
