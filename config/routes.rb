@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  resources :comments
-  resources :posts
+  # resources :comments
+  # resources :posts
+  
+
+  resources :posts do
+  	resources :comments, only: [:index, :new, :create]
+  end
+  resources :comments, only: [:show, :edit, :update, :destroy]
+
+
+
   devise_for :users
 
    root to: 'posts#index'

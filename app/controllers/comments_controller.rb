@@ -29,8 +29,6 @@ class CommentsController < ApplicationController
          @post = Post.find(params[:post_id])
          @comment = @post.comments.create(comment_params)
          @comment.user_id = current_user.id
-   #@comment = Comment.new(title: params[:title], content: params[:content], post_id: params[:post_id], user_id: current_user.id)
-   # @comment = current_user.comments.build(comment_params)
 
     respond_to do |format|
       if @comment.save
